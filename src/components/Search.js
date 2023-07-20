@@ -42,12 +42,20 @@ export default function Search() {
     //         setWeather({ temp: weather?.main?.temp, feels_like: weather?.main?.feels_like, wind_spee: weather?.wind?.speed })
     //     }, 5000)
     // }, [])
+    const onClick = () => {
+        console.log(cityName)
+        navigate(`/${cityName}`)
+    }
+
+    const handleChange = e => {
+        setCityName(e.target.value)
+    }
 
     return (
         <div>
             <div>
-                <input type='text' />
-                <button onClick={() => {navigate(`/${cityName}`)}} >Find</button>
+                <input type='text'value={cityName} onChange={handleChange} />
+                <button onClick={onClick}>Find</button>
                 <div>
                     {weather.temp !== undefined ? <div>
                         <h1>{weather.temp} temp</h1>
