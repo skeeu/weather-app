@@ -5,7 +5,7 @@ import { BsFillCloudRainFill } from 'react-icons/bs'
 
 export default function Home() {
     const { cityName } = useParams()
-    const [weather, setWeather] = useState({ temp: undefined, feels_like: undefined, wind_spee: undefined })
+    const [weather, setWeather] = useState({ temp: undefined, feels_like: undefined, wind_speed: undefined })
 
     const url = process.env.REACT_APP_API_URL
     const apiKey = process.env.REACT_APP_API_KEY
@@ -32,29 +32,30 @@ export default function Home() {
     const getWeather = async (cityName) => {
         const coordinates = await getCoordinates(cityName)
         const weather = await fetchWeather(coordinates.lat, coordinates.lon)
-        return weather
+        console.log(weather);
+        setWeather({
+            temp: weather.main.temp, 
+            feels_like: weather.main.feels_like,
+            wind_speed: weather.wind.speed})
     }
     
     useEffect(() => {
-        console.log(cityName)
-        const weather = getWeather(cityName)
-        console.log(weather)
+        getWeather(cityName)
     }, [])
 
-    const codeOfWeather = 2
-    const icons = {
-        2: <IoIosThunderstorm />,
-        5: <BsFillCloudRainFill/>
-    }
-
+    // const codeOfWeather = 2
+    // const icons = {
+    //     2: <IoIosThunderstorm />,
+    //     5: <BsFillCloudRainFill/>
+    // }
     return (
         <div>
-            {icons[codeOfWeather]}
+            {/* {icons[codeOfWeather]} */}
             {cityName}
             {weather.temp !== undefined ? <div>
                 <h1>{weather.temp} temp</h1>
                 <h1>{weather.feels_like} feels like</h1>
-                <h1>{weather.wind_spee} wind speed</h1>
+                <h1>{weather.wind_speed} wind speed</h1>
             </div> : ''}
         </div>
     )
